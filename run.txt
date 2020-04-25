@@ -1,0 +1,5 @@
+ios:
+pod install
+in the ios dir
+use this if it doesnt work
+sudo xcode-select --switch /Applications/Xcode.app
