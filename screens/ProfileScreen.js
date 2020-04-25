@@ -3,15 +3,28 @@ import {
   View,
   Text,
   StyleSheet,
+  ListView,
 } from 'react-native';
 import Header from './components/Header';
 
-class ProfileScreen extends React.Component {
+class FeedbackScreen extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        times: [
+          {
+
+          }
+        ]
+      }
+    }
     render() {
       return(
         <View style={styles.container}>
             <Header name='Home'/>
-            <View style={styles.body}></View>
+            <View style={styles.body}>
+              <Text style={styles.mainText}>Appointments</Text>
+            </View>
         </View>
       )
     }
@@ -24,8 +37,8 @@ const styles = StyleSheet.create({
       alignItems: 'stretch'
     },
     mainText: {
-      padding: 30,
-      fontSize: 16,
+      padding: 20,
+      fontSize: 18,
       fontWeight: 'bold'
     },
     body: {
@@ -33,5 +46,5 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ProfileScreen;
+export default FeedbackScreen;
 
