@@ -8,7 +8,7 @@ import {
 function Header(props) {
     return (
         <View style={styles.headerBox}>
-            <Text style={styles.mainText}>AppName</Text>
+            <Text style={styles.mainText}>Safe Store</Text>
         </View>
     );
 }
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     mainText: {
-        fontSize: 16,
+        fontSize: 20,
         color: 'white',
         fontWeight: 'bold'
     }

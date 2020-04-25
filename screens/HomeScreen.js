@@ -4,8 +4,11 @@ import {
   Text,
   StyleSheet,
   FlatList,
+  TouchableOpacity,
 } from 'react-native';
 import Header from './components/Header';
+import SignUpScreen from './SignUpScreen';
+import { createStackNavigator } from '@react-navigation/stack';
 
 const MOCK = [
     {
@@ -53,18 +56,22 @@ const MOCK = [
 function Item(props) {
     var alertColor = props.crowd > 2 ? 'darkred' : 'green';
     return (
-        <View style={[styles.item]}>
+        <TouchableOpacity style={[styles.item]}
+                        onPress={props.onPress}>
             <View style={{flexDirection: 'column'}}>
                 <Text style={styles.itemText}>{props.name}</Text>
                 <Text style={{fontSize: 14, color: 'grey'}}>3309 Boston Harbor</Text>
             </View>
             <View style={[{backgroundColor: alertColor}, styles.itemCrowd]}>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 }
 
 class HomeScreen extends React.Component {
+    constructor(props){
+        super(props);
+    }
     render() {
       return(
         <View style={styles.container}>
@@ -73,12 +80,29 @@ class HomeScreen extends React.Component {
                 <Text style={[styles.mainText]}>Stores</Text>
                 <FlatList
                     data={MOCK}
-                    renderItem={({ item }) => <Item name={item.store} crowd={item.crowd}/>}
+                    renderItem={({ item }) => <Item name={item.store} 
+                    crowd={item.crowd} 
+                    id={item.id}
+                    onPress={() => this.props.navigation.navigate("SignUp")}/>}
                     keyExtractor={item => item.id}
                 />
             </View>
         </View>
       )
+    }
+}
+
+const Stack = createStackNavigator();
+
+class StackHolder extends React.Component {
+    render() {
+        return(
+            <Stack.Navigator
+                headerMode='none'>
+                <Stack.Screen name='Home' component={HomeScreen}/>
+                <Stack.Screen name='SignUp' component={SignUpScreen}/>
+            </Stack.Navigator>
+        );
     }
 }
 
@@ -91,7 +115,7 @@ const styles = StyleSheet.create({
     },
     mainText: {
       padding: 20,
-      fontSize: 20,
+      fontSize: 18,
       fontWeight: 'bold',
       alignSelf: 'flex-start'
     },
@@ -130,4 +154,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default HomeScreen;
+export default StackHolder;

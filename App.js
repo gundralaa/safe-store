@@ -18,9 +18,9 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import ProfileScreen from './screens/ProfileScreen';
-import HomeScreen from './screens/HomeScreen';
+import FeedbackScreen from './screens/ProfileScreen';
 import MapScreen from './screens/MapScreen';
+import StackHolder from './screens/HomeScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -37,7 +37,7 @@ class App extends React.Component {
                   iconName = 'home'
                 } else if (route.name === 'Map') {
                   iconName = 'map'
-                } else if (route.name === 'Profile') {
+                } else if (route.name === 'Feedback') {
                   iconName = 'user'
                 }
                 return <Icon name={iconName} size={size} color={color} />;
@@ -47,9 +47,9 @@ class App extends React.Component {
               activeTintColor: 'skyblue',
               inactiveTintColor: 'gray',
             }}>
-            <Tab.Screen name="Home" component={HomeScreen}/>
+            <Tab.Screen name="Home" component={StackHolder}/>
             <Tab.Screen name="Map" component={MapScreen}/>
-            <Tab.Screen name="Profile" component={ProfileScreen}/>
+            <Tab.Screen name="Feedback" component={FeedbackScreen}/>
           </Tab.Navigator>
       </NavigationContainer>
     );
