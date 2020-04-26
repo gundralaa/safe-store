@@ -13,7 +13,6 @@ class FeedbackScreen extends React.Component {
       this.state = {
         times: [
           {
-
           }
         ]
       }

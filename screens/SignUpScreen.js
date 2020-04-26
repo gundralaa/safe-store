@@ -9,29 +9,44 @@ import {
 import MapView from 'react-native-maps';
 import Header from './components/Header';
 import { TextInput } from 'react-native-gesture-handler';
+import Places from './Places';
 
 class SignUpScreen extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            timeText: '',
+            timeText: '4:30PM',
             immuneCheck: false,
+            name: this.props.route.params.name,
+            id: this.props.route.params.id,
         };
+    }
+    onSubmit() {
+        var places = new Places();
+        var url = places.getSignUpUrl(this.state.id, this.state.immuneCheck, this.state.timeText);
+        fetch(url)
+        .then((response) => {
+            console.log(response);
+            this.props.navigation.navigate("Home");
+        })
+        .catch((error) => {
+            console.error(error);
+        });
     }
     render() {
       return(
         <View style={styles.container}>
             <Header name='Signup'/>
             <View style={styles.body}>
-                <Text style={styles.mainText}>Open Time</Text>
+                <Text style={styles.mainText}>Best Time {this.state.name}</Text>
                 <View style={{flex: 2}}>
-                    <Text style={styles.time}>3:30</Text>
+                    <Text style={styles.time}>3:30 PM</Text>
                 </View>
                 <View style={{flex: 9, flexDirection:'column', justifyContent: 'space-between', padding: 30}}>
                     <Text style={styles.headerText}>Chosen Time</Text>
                     <TextInput
                         style={styles.timeInput}
-                        placeholder='4:30'
+                        placeholder='4:30 PM'
                         onChangeText={(text) => this.setState({timeText: text})}
                         defaultValue={this.state.timeText}
                     />
@@ -42,7 +57,7 @@ class SignUpScreen extends React.Component {
                     />
                     <TouchableOpacity
                         style={{backgroundColor: 'white', alignSelf: 'center'}}
-                        onPress={() => this.props.navigation.navigate("Home")}>
+                        onPress={() => this.onSubmit()}>
                         <Text style={styles.headerText}>Submit</Text>
                     </TouchableOpacity>
                 </View>

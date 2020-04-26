@@ -9,6 +9,8 @@ import {
 import Header from './components/Header';
 import SignUpScreen from './SignUpScreen';
 import { createStackNavigator } from '@react-navigation/stack';
+import Places from './Places';
+import Geolocation from '@react-native-community/geolocation';
 
 const MOCK = [
     {
@@ -54,13 +56,13 @@ const MOCK = [
 ]
 
 function Item(props) {
-    var alertColor = props.crowd > 2 ? 'darkred' : 'green';
+    var alertColor = 1 > 2 ? 'darkred' : 'green';
     return (
         <TouchableOpacity style={[styles.item]}
                         onPress={props.onPress}>
             <View style={{flexDirection: 'column'}}>
                 <Text style={styles.itemText}>{props.name}</Text>
-                <Text style={{fontSize: 14, color: 'grey'}}>3309 Boston Harbor</Text>
+                <Text style={{fontSize: 14, color: 'grey'}}>{props.address}</Text>
             </View>
             <View style={[{backgroundColor: alertColor}, styles.itemCrowd]}>
             </View>
@@ -71,6 +73,52 @@ function Item(props) {
 class HomeScreen extends React.Component {
     constructor(props){
         super(props);
+        this.state= {
+            initialPosition: {
+                latitude: 47.78825,
+                longitude: -122.4324,
+            },
+            stores: [
+            ],
+            url: '',
+            zipCode: 98506,
+        };
+    }
+    async setLocation() {
+        Geolocation.getCurrentPosition((position) => {
+          var lat = parseFloat(position.coords.latitude)
+          var long = parseFloat(position.coords.longitude)
+  
+          var initialRegion = {
+            latitude: lat,
+            longitude: long
+          }
+  
+          //console.log(initialRegion)
+  
+          this.setState({initialPosition: initialRegion})
+          var place = new Places();
+          var url = place.getShopsUrl(this.state.zipCode);
+          this.getShops(url);
+        },
+        (error) => alert(JSON.stringify(error)),
+        {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000});
+      }
+    componentDidMount() {
+        this.setLocation();
+    }
+    getShops(url) {
+        return fetch(url)
+            .then((response) => {
+                return response.json();
+            })
+            .then((json) => {
+                this.setState({stores: json});
+                return json
+            })
+            .catch((error) => {
+                console.error(error);
+        });
     }
     render() {
       return(
@@ -79,11 +127,10 @@ class HomeScreen extends React.Component {
             <View style={styles.body}>
                 <Text style={[styles.mainText]}>Stores</Text>
                 <FlatList
-                    data={MOCK}
-                    renderItem={({ item }) => <Item name={item.store} 
-                    crowd={item.crowd} 
-                    id={item.id}
-                    onPress={() => this.props.navigation.navigate("SignUp")}/>}
+                    data={this.state.stores}
+                    renderItem={({ item }) => <Item name={item.name}
+                    address={item.physical_address} 
+                    onPress={() => this.props.navigation.navigate("SignUp", {id: item.id, name: item.name})}/>}
                     keyExtractor={item => item.id}
                 />
             </View>
