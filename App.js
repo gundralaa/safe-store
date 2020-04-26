@@ -21,6 +21,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FeedbackScreen from './screens/ProfileScreen';
 import MapScreen from './screens/MapScreen';
 import StackHolder from './screens/HomeScreen';
+import StackHolder2 from './screens/ProfileScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -49,7 +50,7 @@ class App extends React.Component {
             }}>
             <Tab.Screen name="Home" component={StackHolder}/>
             <Tab.Screen name="Map" component={MapScreen}/>
-            <Tab.Screen name="Feedback" component={FeedbackScreen}/>
+            <Tab.Screen name="Feedback" component={StackHolder2}/>
           </Tab.Navigator>
       </NavigationContainer>
     );
