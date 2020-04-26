@@ -2,6 +2,7 @@
   package="com.storelist">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
       android:name=".MainApplication"
@@ -12,7 +13,7 @@
       android:theme="@style/AppTheme">
       <meta-data
         android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyBzYr6F5c5kZB3L1GYvuku9h92JOT2E9Ak"/>    
+        android:value="AIzaSyD8o4Tdpkq3sjirUXL1uq0QxcctNVbD6UY"/>    
       <uses-library android:name="org.apache.http.legacy" android:required="false"/>
       <activity
         android:name=".MainActivity"
