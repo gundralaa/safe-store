@@ -64,8 +64,6 @@ function Item(props) {
                 <Text style={styles.itemText}>{props.name}</Text>
                 <Text style={{fontSize: 14, color: 'grey'}}>{props.address}</Text>
             </View>
-            <View style={[{backgroundColor: alertColor}, styles.itemCrowd]}>
-            </View>
         </TouchableOpacity>
     );
 }
@@ -98,7 +96,7 @@ class HomeScreen extends React.Component {
   
           this.setState({initialPosition: initialRegion})
           var place = new Places();
-          var url = place.getShopsUrl(this.state.zipCode);
+          var url = place.getShopsUrl(this.state.initialPosition);
           this.getShops(url);
         },
         (error) => alert(JSON.stringify(error)),
@@ -110,9 +108,11 @@ class HomeScreen extends React.Component {
     getShops(url) {
         return fetch(url)
             .then((response) => {
+                console.log(response)
                 return response.json();
             })
             .then((json) => {
+                console.log(json)
                 this.setState({stores: json});
                 return json
             })
@@ -130,7 +130,10 @@ class HomeScreen extends React.Component {
                     data={this.state.stores}
                     renderItem={({ item }) => <Item name={item.name}
                     address={item.physical_address} 
-                    onPress={() => this.props.navigation.navigate("SignUp", {id: item.id, name: item.name})}/>}
+                    onPress={() => this.props.navigation.navigate("SignUp", 
+                        {id: item.id, 
+                        name: item.name, 
+                        time: item.besttime})}/>}
                     keyExtractor={item => item.id}
                 />
             </View>

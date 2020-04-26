@@ -1,15 +1,11 @@
 import React from 'react';
 import {
-  AppRegistry,
   View,
   Text,
   StyleSheet,
-  ListView,  
-    Dimensions,
-  Slider,
-    TouchableOpacity,
-  Button
+  TouchableOpacity,
 } from 'react-native';
+import Slider from '@react-native-community/slider';
 import Header from './components/Header';
 
 
@@ -21,21 +17,6 @@ class FeedbackSubmit extends React.Component {
       }
     }
     render() {
-         const width = Dimensions.get('window').width;
-        const sliderStyle = {
-            sliderDummy: {
-                backgroundColor: '#d3d3d3',
-                width: 300,
-                height:30,
-                borderRadius: 50,
-                position: 'absolute',                
-            },
-            sliderReal: {
-                backgroundColor: '#119EC2',
-                width: (this.state.slideValue/50) * 300,
-                height:30,
-            }
-        }
       return (
       <View style={styles.container}>
            <Header name='How crowded was the store when you arrived?'/>
@@ -47,14 +28,12 @@ class FeedbackSubmit extends React.Component {
         </Text>
         <View style={styles.body}>
         <Slider
-          style={{ width: 415, position: 0, 
-    top: 0, left: 0, 
-    right: 0, bottom: 0, 
-    justifyContent: 'center', 
-    alignItems: 'center'}}
+          style={{ width: 415,
+            justifyContent: 'center', 
+            alignItems: 'center'
+          }}
           minimumValue={0}
           maximumValue={10}
-          step={0.00000000001}
           onValueChange={(rate) => this.setState({rate: Math.round(rate)})}
           thumbTintColor='white'
           maximumTrackTintColor='grey' 
@@ -63,7 +42,7 @@ class FeedbackSubmit extends React.Component {
                         style={{backgroundColor: 'white', alignSelf: 'center'}}
                         onPress={() => this.props.navigation.navigate("ThankYou")}>
                         <Text style={styles.headerText}>Submit</Text>
-                    </TouchableOpacity>
+                </TouchableOpacity>
     </View>
     </View>
    
