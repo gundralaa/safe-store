@@ -19,6 +19,7 @@ class SignUpScreen extends React.Component {
             immuneCheck: false,
             name: this.props.route.params.name,
             id: this.props.route.params.id,
+            time: this.props.route.params.time,
         };
     }
     onSubmit() {
@@ -40,7 +41,7 @@ class SignUpScreen extends React.Component {
             <View style={styles.body}>
                 <Text style={styles.mainText}>Best Time {this.state.name}</Text>
                 <View style={{flex: 2}}>
-                    <Text style={styles.time}>3:30 PM</Text>
+                    <Text style={styles.time}>{this.state.time}</Text>
                 </View>
                 <View style={{flex: 9, flexDirection:'column', justifyContent: 'space-between', padding: 30}}>
                     <Text style={styles.headerText}>Chosen Time</Text>
@@ -50,11 +51,12 @@ class SignUpScreen extends React.Component {
                         onChangeText={(text) => this.setState({timeText: text})}
                         defaultValue={this.state.timeText}
                     />
-                    <Text style={styles.headerText}>Immunocompromised: {this.state.immuneCheck ? 'Yes' : 'No'}</Text>
-                    <Button
-                        onPress={() => this.setState((prevState) => ({immuneCheck: !prevState.immuneCheck}))}
-                        title={''}
-                    />
+                    <Text style={styles.headerText}>Health Risk: {this.state.immuneCheck ? 'Yes' : 'No'}</Text>
+                    <TouchableOpacity
+                        style={{backgroundColor: 'white', alignSelf: 'center'}}
+                        onPress={() => this.setState((prevState) => ({immuneCheck: !prevState.immuneCheck}))}>
+                            <Text style={styles.headerText}>Health Risk?</Text>
+                        </TouchableOpacity>
                     <TouchableOpacity
                         style={{backgroundColor: 'white', alignSelf: 'center'}}
                         onPress={() => this.onSubmit()}>

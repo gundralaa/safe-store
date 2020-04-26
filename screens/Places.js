@@ -24,9 +24,10 @@ class Places {
         console.log(url);
         return url;
     }
-    getShopsUrl(zipCode) {
+    getShopsUrl(longLat) {
         var SHOPS_URL = new URL("https://safestoreapi.herokuapp.com/fetchstore/");
-        SHOPS_URL.searchParams.append("zipcode", zipCode.toString());
+        SHOPS_URL.searchParams.append("lat", longLat.latitude.toString());
+        SHOPS_URL.searchParams.append("long", longLat.longitude.toString());
         var url = SHOPS_URL.href;
         console.log(url);
         return url;

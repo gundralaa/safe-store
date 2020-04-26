@@ -9,6 +9,7 @@ import Header from './components/Header';
 import SignUpScreen from './SignUpScreen'
 import Geolocation from '@react-native-community/geolocation';
 import { createStackNavigator } from '@react-navigation/stack';
+import Places from './Places';
 
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = 0.0421;
@@ -23,24 +24,7 @@ class MapScreen extends React.Component {
           latitudeDelta: LATITUDE_DELTA,
           longitudeDelta: LONGITUDE_DELTA,
         },
-        stores: [
-          {
-            key: 0,
-            name: 'Ralphs',
-            latLng: {
-              latitude: 47.07898443,
-              longitude: -122.89892559,
-            }
-          },
-          {
-            key: 1,
-            name: 'Safeway',
-            latLng: {
-              latitude: 47.075,
-              longitude: -122.89,
-            }
-          }
-        ]
+        stores: []
       }
     }
     async setLocation() {
@@ -58,12 +42,30 @@ class MapScreen extends React.Component {
         console.log(initialRegion)
 
         this.setState({initialPosition: initialRegion})
+        var place = new Places();
+        var url = place.getShopsUrl(this.state.initialPosition);
+        this.getShops(url);
       },
       (error) => alert(JSON.stringify(error)),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000});
     }
     componentDidMount() {
       this.setLocation();
+    }
+    getShops(url) {
+      return fetch(url)
+          .then((response) => {
+              console.log(response)
+              return response.json();
+          })
+          .then((json) => {
+              console.log(json)
+              this.setState({stores: json});
+              return json
+          })
+          .catch((error) => {
+              console.error(error);
+      });
     }
     render() {
       return(
@@ -74,11 +76,13 @@ class MapScreen extends React.Component {
                     style={styles.map}
                     region={this.state.initialPosition}>
                     {this.state.stores.map(store => (
-                      <MapView.Marker coordinate={store.latLng}
+                      <MapView.Marker coordinate={{latitude: parseFloat(store.latitude), 
+                                                    longitude: parseFloat(store.longitude)}}
                                       title={store.name}
                                       onCalloutPress={() => this.props.navigation.navigate('SignUp', {
                                         name: store.name,
-                                        id: store.key
+                                        id: store.key,
+                                        time: store.besttime
                                       })}/>
                     ))}
                 </MapView>
